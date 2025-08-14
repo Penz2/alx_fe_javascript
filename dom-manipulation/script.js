@@ -55,8 +55,8 @@ function addQuote() {
   }
   
   quotes.push({ text, category });
-  newQuoteText.value = "";
-  newQuoteCategory.value = "";
+ newQuoteText.value = "";
+newQuoteCategory.value = "";
   
   populateCategories();
   alert("Quote added successfully!");
@@ -68,3 +68,4 @@ addQuoteBtn.addEventListener("click", addQuote);
 
 // Initialize categories
 populateCategories();
+
