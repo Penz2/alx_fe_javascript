@@ -43,7 +43,7 @@ function populateCategories() {
   });
 }
 
-// ====== SHOW RANDOM QUOTE ======
+// ====== SHOW RANDOM QUOTE (FILTERED) ======
 function showRandomQuote() {
   const selectedCategory = categorySelect.value;
   localStorage.setItem("lastSelectedCategory", selectedCategory);
@@ -61,6 +61,7 @@ function showRandomQuote() {
   const quote = filteredQuotes[randomIndex];
   quoteDisplay.textContent = `"${quote.text}" — ${quote.category}`;
 
+  // Save index globally for restoring last viewed quote in session
   const globalIndex = quotes.findIndex(q => q.text === quote.text && q.category === quote.category);
   sessionStorage.setItem("lastQuoteIndex", globalIndex);
 }
@@ -78,6 +79,7 @@ function addQuote() {
   quotes.push({ text, category });
   saveQuotes();
   populateCategories();
+  showRandomQuote();
   alert("Quote added successfully!");
 
   document.getElementById("newQuoteText").value = "";
@@ -110,15 +112,18 @@ function createAddQuoteForm() {
 
 // ====== EXPORT TO JSON ======
 function exportToJsonFile() {
-  const dataStr = JSON.stringify(quotes, null, 2);
-  const blob = new Blob([dataStr], { type: "application/json" });
+  const jsonData = JSON.stringify(quotes, null, 2);
+  const blob = new Blob([jsonData], { type: "application/json" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
   a.download = "quotes.json";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
 }
 
 // ====== IMPORT FROM JSON ======
