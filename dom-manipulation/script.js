@@ -69,3 +69,36 @@ addQuoteBtn.addEventListener("click", addQuote);
 // Initialize categories
 populateCategories();
 
+function createAddQuoteForm() {
+  // Create container div
+  const formContainer = document.createElement("div");
+  formContainer.id = "addQuoteForm";
+  formContainer.style.marginTop = "20px";
+
+  // Input for new quote text
+  const quoteInput = document.createElement("input");
+  quoteInput.id = "newQuoteText";
+  quoteInput.type = "text";
+  quoteInput.placeholder = "Enter a new quote";
+  quoteInput.style.marginRight = "10px";
+
+  // Input for new quote category
+  const categoryInput = document.createElement("input");
+  categoryInput.id = "newQuoteCategory";
+  categoryInput.type = "text";
+  categoryInput.placeholder = "Enter quote category";
+  categoryInput.style.marginRight = "10px";
+
+  // Add button
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add Quote";
+  addButton.addEventListener("click", addQuote);
+
+  // Append inputs and button to container
+  formContainer.appendChild(quoteInput);
+  formContainer.appendChild(categoryInput);
+  formContainer.appendChild(addButton);
+
+  // Append container to body (or any section you want)
+  document.body.appendChild(formContainer);
+}
