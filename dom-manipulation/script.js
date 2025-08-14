@@ -23,6 +23,9 @@ function saveQuotes() {
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuoteBtn = document.getElementById("newQuote");
 const categorySelect = document.getElementById("categorySelect");
+const addQuoteBtn = document.getElementById("addQuoteBtn");
+const exportBtn = document.getElementById("exportBtn");
+const importFile = document.getElementById("importFile");
 
 // ====== POPULATE CATEGORY DROPDOWN ======
 function populateCategories() {
@@ -94,6 +97,7 @@ function createAddQuoteForm() {
 
   const addButton = document.createElement("button");
   addButton.textContent = "Add Quote";
+  addButton.id = "addQuoteBtn"; // ensure the ID exists
   addButton.addEventListener("click", addQuote);
 
   formContainer.appendChild(quoteInput);
@@ -101,9 +105,45 @@ function createAddQuoteForm() {
   formContainer.appendChild(addButton);
 }
 
+// ====== EXPORT TO JSON ======
+function exportToJsonFile() {
+  const dataStr = JSON.stringify(quotes, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "quotes.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ====== IMPORT FROM JSON ======
+function importFromJsonFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const importedQuotes = JSON.parse(e.target.result);
+      if (!Array.isArray(importedQuotes)) throw new Error("Invalid format");
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      populateCategories();
+      alert("Quotes imported successfully!");
+    } catch (err) {
+      alert("Error importing file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
 // ====== EVENT LISTENERS ======
 newQuoteBtn.addEventListener("click", showRandomQuote);
 categorySelect.addEventListener("change", showRandomQuote);
+if (addQuoteBtn) addQuoteBtn.addEventListener("click", addQuote);
+if (exportBtn) exportBtn.addEventListener("click", exportToJsonFile);
+if (importFile) importFile.addEventListener("change", importFromJsonFile);
 
 // ====== INIT ======
 window.addEventListener("DOMContentLoaded", () => {
@@ -117,4 +157,3 @@ window.addEventListener("DOMContentLoaded", () => {
     quoteDisplay.textContent = `"${quotes[lastIndex].text}" — ${quotes[lastIndex].category}`;
   }
 });
-
