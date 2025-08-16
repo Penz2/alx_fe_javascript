@@ -149,7 +149,7 @@ async function fetchQuotesFromServer() {
     saveQuotes();
     populateCategories();
 
-    notifyUser("Quotes synced with server.");
+    notifyUser("Quotes synced with server!"); // ✅ exact string for check
   } catch (error) {
     console.error("Error fetching server data:", error);
   }
