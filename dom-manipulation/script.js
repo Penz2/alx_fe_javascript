@@ -139,21 +139,21 @@ async function fetchQuotesFromServer() {
   }
 }
 
-// Push quotes to server
+// ====== Push quotes to server ======
 async function syncQuotes(action, data) {
   try {
     if (action === "post") {
       await fetch(SERVER_URL, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: { "Content-type": "application/json; charset=UTF-8" }
+        headers: { "Content-Type": "application/json; charset=UTF-8" } // FIXED
       });
     } else if (action === "postBulk") {
       for (const quote of data) {
         await fetch(SERVER_URL, {
           method: "POST",
           body: JSON.stringify(quote),
-          headers: { "Content-type": "application/json; charset=UTF-8" }
+          headers: { "Content-Type": "application/json; charset=UTF-8" } // FIXED
         });
       }
     }
@@ -162,17 +162,19 @@ async function syncQuotes(action, data) {
   }
 }
 
-// Notify User of Sync Events
-function notifyUser(message) {
+// ====== Notify User of Sync Events ======
+function notifyUser(message, isConflict = false) {
   const notification = document.createElement("div");
   notification.textContent = message;
-  notification.style.background = "lightgreen";
+  notification.style.background = isConflict ? "lightcoral" : "lightgreen";
+  notification.style.color = "black";
   notification.style.padding = "10px";
   notification.style.margin = "10px 0";
   notification.style.borderRadius = "5px";
+  notification.style.fontWeight = "bold";
   document.body.prepend(notification);
 
-  setTimeout(() => notification.remove(), 3000);
+  setTimeout(() => notification.remove(), 4000);
 }
 
 // ====== Init ======
