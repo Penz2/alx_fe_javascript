@@ -9,8 +9,8 @@ function loadQuotes() {
     ? JSON.parse(storedQuotes)
     : [
         { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
-        { text: "Life is what happens when you're busy making other plans.", category: "Life" },
-        { text: "Do what you can, with what you have, where you are.", category: "Wisdom" }
+        { text: "Don’t let yesterday take up too much of today.", category: "Wisdom" },
+        { text: "It’s not whether you get knocked down, it’s whether you get up.", category: "Perseverance" }
       ];
 }
 
@@ -165,3 +165,4 @@ window.addEventListener("DOMContentLoaded", () => {
     showRandomQuote();
   }
 });
+
